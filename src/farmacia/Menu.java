@@ -6,6 +6,7 @@ import java.util.Scanner;
 import farmacia.util.Cores;
 import produto.model.Produto;
 import produto.model.Medicamento;
+import produto.controller.ProdutoController;
 import produto.model.Cosmetico;
 
 public class Menu {
@@ -14,8 +15,12 @@ public class Menu {
 
 	public static void main(String[] args) {
 		
+		ProdutoController produtos = new ProdutoController();
+		
 	
-		int opcao;
+		int opcao, tipo;
+		String nome,generico, fragrancia;
+		float valor;
 		
 
 		while (true) {
@@ -58,12 +63,37 @@ public class Menu {
 				switch (opcao) {
 				case 1:
 					System.out.println("Cadastrar Produto \n\n");
+					System.out.print("Digite o tipo do produto (1-Medicamento / 2-Cosmético): ");
+						tipo = sc.nextInt();
+						
+					System.out.print("Digite o nome do produto: ");
+					sc.skip("\\R?");
+					nome = sc.nextLine();
 					
+					System.out.println("Digite o Valor do Produto: ");
+					valor = sc.nextFloat();
+					
+					switch (tipo) {
+					case 1:
+						System.out.println("Nome da opção genérica do medicamento: ");
+						sc.skip("\\R?");
+						generico = sc.nextLine();
+						produtos.criaProduto(new Medicamento(produtos.gerarId(), nome, tipo, valor, generico));
+					
+
+					case 2:
+						System.out.println("Nome da fragrância do cosmético: ");
+						sc.skip("\\R?");
+						fragrancia= sc.nextLine();
+						produtos.criaProduto(new Cosmetico(produtos.gerarId(), nome, tipo, valor, fragrancia));
+						
+					}
 					keyPress();
 					break;
 					
 				case 2:
 					System.out.println("Listar Todos os Produtos  \n\n");
+					produtos.listarTodosProdutos();;
 					
 					keyPress();
 					break;
